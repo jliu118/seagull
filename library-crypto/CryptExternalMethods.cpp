@@ -324,22 +324,28 @@ int create_algo_MD5_radius(char          *  P_msg,
                            int              P_msg_size,
                            char          *  P_shared_secret,
                            unsigned char *  P_result) {
-  int        L_ret         = 0 ;
-  int        L_size_shared = 0 ;
-  
-  MD5_CTX    L_Md5Ctx ;
+  //MD5_CTX    L_Md5Ctx ;
 
   if (P_shared_secret != NULL) {
     L_size_shared = strlen(P_shared_secret);
   }
 
+  /*
   MD5_Init(&L_Md5Ctx);
-   MD5_Update(&L_Md5Ctx, P_msg, P_msg_size);
   if (L_size_shared > 0) {
     MD5_Update(&L_Md5Ctx, P_shared_secret, L_size_shared);
   }
- 
+  MD5_Update(&L_Md5Ctx, P_msg, P_msg_size);
   MD5_Final(P_result, &L_Md5Ctx);
+  */
+
+  msg_secret = (char *)malloc(P_msg_size + L_size_shared);
+  memcpy(msg_secret, P_msg, P_msg_size);
+  p = msg_secret + P_msg_size;
+  memcpy(p, P_shared_secret, L_size_shared);
+
+  MD5((unsigned char *)msg_secret, P_msg_size + L_size_shared, P_result);
+  free(msg_secret);
 
   return (L_ret);
 }
