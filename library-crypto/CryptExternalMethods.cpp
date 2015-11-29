@@ -324,6 +324,10 @@ int create_algo_MD5_radius(char          *  P_msg,
                            int              P_msg_size,
                            char          *  P_shared_secret,
                            unsigned char *  P_result) {
+  int        L_ret         = 0 ;
+  int        L_size_shared = 0 ;
+  char       *p, *msg_secret;
+  
   //MD5_CTX    L_Md5Ctx ;
 
   if (P_shared_secret != NULL) {
